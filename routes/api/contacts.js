@@ -8,6 +8,7 @@ const {
 } = require('../../models/contacts');
 const { addContactsSchema } = require('../../models/validator');
 
+
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -81,6 +82,5 @@ router.put('/:contactId', async (req, res, next) => {
 	} catch (error) {
 		next(error);
 	}
-});
 
 module.exports = router;
