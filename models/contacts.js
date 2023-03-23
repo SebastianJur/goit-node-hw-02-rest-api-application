@@ -1,11 +1,31 @@
+const mongoose = require('mongoose');
 const fs = require('fs/promises');
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const contactsPath = path.resolve(__dirname, './contacts.json');
+
+const Shema = mongoose.Schema;
+
+const contactSchema = new Shema({
+	name: {
+		type: String,
+	},
+	email: {
+		type: String,
+	},
+	phone: {
+		type: String,
+	},
+	favorite: {
+		type: Boolean,
+		default: false,
+	},
+});
+
+const Contact = mongoose.model('Contact', contactSchema);
 
 const listContacts = async () => {
-	const data = await fs.readFile(contactsPath);
-	return JSON.parse(data);
+	const contacts = await Contact.find();
+	console.log(contacts);
+	return contacts;
 };
 
 const getContactById = async (contactId) => {
@@ -62,6 +82,7 @@ const updateContact = async (contactId, body) => {
 };
 
 module.exports = {
+	Contact,
 	listContacts,
 	getContactById,
 	removeContact,

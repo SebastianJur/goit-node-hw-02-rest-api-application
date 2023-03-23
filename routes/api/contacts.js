@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
 	try {
 		const contacts = await listContacts();
-		await res.status(200).json(contacts);
+		res.status(200).json(contacts);
 	} catch {
 		return res.status(500).send('Something went wrong');
 	}
@@ -82,5 +82,6 @@ router.put('/:contactId', async (req, res, next) => {
 	} catch (error) {
 		next(error);
 	}
-
+});
+	
 module.exports = router;
