@@ -11,6 +11,7 @@ const {
 	addContactsSchema,
 	contactUpdateStatusValidationShema,
 } = require('../../models/validator');
+const auth = require('../../auth/auth');
 
 const router = express.Router();
 
