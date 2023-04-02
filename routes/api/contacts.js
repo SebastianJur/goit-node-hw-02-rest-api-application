@@ -11,10 +11,11 @@ const {
 	addContactsSchema,
 	contactUpdateStatusValidationShema,
 } = require('../../models/validator');
+const auth = require('../../auth/auth');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', auth, async (req, res, next) => {
 	try {
 		const contacts = await listContacts();
 		res.status(200).json(contacts);
@@ -23,7 +24,7 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
-router.get('/:contactId', async (req, res, next) => {
+router.get('/:contactId', auth, async (req, res, next) => {
 	try {
 		const { contactId } = req.params;
 		const contact = await getContactById(contactId);
@@ -38,7 +39,7 @@ router.get('/:contactId', async (req, res, next) => {
 	}
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', auth, async (req, res, next) => {
 	try {
 		await addContactsSchema.validateAsync(req.body);
 		const newContact = await addContact(req.body);
@@ -48,7 +49,7 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
-router.delete('/:contactId', async (req, res, next) => {
+router.delete('/:contactId', auth, async (req, res, next) => {
 	try {
 		const { contactId } = req.params;
 		const contact = await getContactById(contactId);
@@ -67,7 +68,7 @@ router.delete('/:contactId', async (req, res, next) => {
 	}
 });
 
-router.put('/:contactId', async (req, res, next) => {
+router.put('/:contactId', auth, async (req, res, next) => {
 	try {
 		if (!req.body || Object.keys(req.body).length === 0) {
 			return res.status(400).json({ message: 'missing fields' });
@@ -87,7 +88,7 @@ router.put('/:contactId', async (req, res, next) => {
 	}
 });
 
-router.patch('/:contactId/favorite', async (req, res, next) => {
+router.patch('/:contactId/favorite', auth, async (req, res, next) => {
 	try {
 		const { contactId } = req.params;
 		const { error } = contactUpdateStatusValidationShema.validate(req.body);
