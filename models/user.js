@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Joi = require('joi');
 const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
@@ -27,6 +26,14 @@ const userSchema = new Schema(
 		avatarURL: {
 			type: String,
 			default: null,
+		},
+		verify: {
+			type: Boolean,
+			default: false,
+		},
+		verifyToken: {
+			type: String,
+			required: [true, 'Verify token is required'],
 		},
 	},
 	{ versionKey: false, timestamps: true }
