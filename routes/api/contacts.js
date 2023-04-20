@@ -29,7 +29,7 @@ router.get('/:contactId', auth, async (req, res, next) => {
 		const { contactId } = req.params;
 		const contact = await getContactById(contactId);
 
-		if (contact === 'not found') {
+		if (!contact) {
 			return res.status(404).send('Contact with this ID was not found');
 		} else {
 			return res.status(200).json(contact);
@@ -54,7 +54,7 @@ router.delete('/:contactId', auth, async (req, res, next) => {
 		const { contactId } = req.params;
 		const contact = await getContactById(contactId);
 
-		if (contact === 'not found') {
+		if (!contact) {
 			return res.status(404).send('Contact not found');
 		}
 
