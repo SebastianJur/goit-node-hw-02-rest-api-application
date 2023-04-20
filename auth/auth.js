@@ -21,6 +21,10 @@ const auth = async (req, res, next) => {
 			if (!user) {
 				return res.status(401).json({ message: 'Not authorized' });
 			}
+
+			if (!user.verify) {
+				return res.status(401).json({ message: 'Email is not verified' });
+			}
 		} catch (error) {
 			return res.status(401).json({ message: 'Not authorized' });
 		}

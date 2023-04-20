@@ -1,5 +1,6 @@
 const { User, hashPassword } = require('../models/user');
 const gravatar = require('gravatar');
+const { v4: uuidv4 } = require('uuid');
 
 const createUser = async (body) => {
 	const { email, password } = body;
@@ -9,6 +10,8 @@ const createUser = async (body) => {
 		email,
 		password: passwordHash,
 		avatarURL,
+		verify: false,
+		verifyToken: uuidv4(),
 	});
 	return newUser;
 };
@@ -45,10 +48,21 @@ const updateAvatar = async (email, avatarURL) => {
 	return user;
 };
 
+const verifyUser = async (verifyToken) => {
+	const user = await User.findOneAndUpdate(
+		{ verifyToken },
+		{ verify: true, verifyToken: null },
+		{ new: true }
+	);
+	return user;
+};
+
+
 module.exports = {
 	createUser,
 	getUserByEmail,
 	updateSubscription,
 	logout,
 	updateAvatar,
+	verifyUser,
 };

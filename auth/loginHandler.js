@@ -9,6 +9,10 @@ const loginHandler = async (email, password) => {
 		throw new Error('Email or password is wrong');
 	}
 
+	if (!user.verify) {
+		throw new Error('Email not verified !');
+	}
+
 	const userPassword = user.password;
 	const result = bcrypt.compareSync(password, userPassword);
 	if (result) {
